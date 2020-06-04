@@ -4,7 +4,7 @@ import {DEFAULT_ENTITY_URL, DEFAULT_MODEL_URL, DEFAULT_URL} from './constants';
 export default {
 
   getUploadedModelList () {
-    return getAxios().get(`${DEFAULT_MODEL_URL}`);
+    return getAxios().get(`${DEFAULT_MODEL_URL}/all`);
   },
   uploadModel (data) {
     return getAxios().post(`${DEFAULT_MODEL_URL}`, data, {
