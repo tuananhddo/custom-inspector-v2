@@ -13,6 +13,7 @@ import ViewportHUD from './viewport/ViewportHUD';
 import {injectCSS} from '../lib/utils';
 import ModelModal from './modals/ModelModal';
 import TransformToolbarVer2 from '../customComponents/TransformToolbarVer2';
+import UploadImageModal from './modals/UploadImageModal';
 
 // Megahack to include font-awesome.
 injectCSS('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
@@ -26,6 +27,7 @@ export default class Main extends React.Component {
       inspectorEnabled: true,
       isModalTexturesOpen: false,
       isModelModalOpen: false,
+      isUploadImageModalOpen: false,
       sceneEl: AFRAME.scenes[0],
       visible: {
         scenegraph: true,
@@ -91,7 +93,16 @@ export default class Main extends React.Component {
         });
       }.bind(this)
     );
-
+    Events.on(
+      'openUploadImageModal',
+      function (selectedModel, modelOnClose) {
+        this.setState({
+          selectedModel: selectedModel,
+          isUploadImageModalOpen: true,
+          modelOnClose: modelOnClose
+        });
+      }.bind(this)
+    );
     Events.on('entityselect', entity => {
       this.setState({entity: entity});
     });
@@ -111,7 +122,9 @@ export default class Main extends React.Component {
   onCloseModelModal = value => {
     this.setState({isModelModalOpen: false});
   };
-
+  onCloseUploadImageModal = value => {
+    this.setState({isUploadImageModalOpen: false});
+  };
   onModalTextureOnClose = value => {
     this.setState({isModalTexturesOpen: false});
     if (this.state.textureOnClose) {
@@ -221,6 +234,12 @@ export default class Main extends React.Component {
           isOpen={this.state.isModelModalOpen}
           selectedModel={this.state.selectedModel}
           onClose={this.onCloseModelModal}
+        />
+        <UploadImageModal
+          // ref="modalmodels"
+          isOpen={this.state.isUploadImageModalOpen}
+          selectedModel={this.state.selectedModel}
+          onClose={this.onCloseUploadImageModal}
         />
       </div>
     );

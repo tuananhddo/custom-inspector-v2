@@ -13,6 +13,13 @@ export default {
       }
     });
   },
+  uploadImage (data) {
+    return getAxios().post(`${DEFAULT_MODEL_URL}/image`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
   createEntity (definition) {
     return getAxios().post(`${DEFAULT_URL}/sync/create`, definition);
   }

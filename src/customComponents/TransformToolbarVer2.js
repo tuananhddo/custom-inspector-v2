@@ -37,7 +37,8 @@ function createCheckPoint () {
 }
 
 function uploadImage () {
-
+  Events.emit('openUploadImageModal', '', item => {
+  });
 }
 
 function createDoor () {
@@ -50,7 +51,12 @@ function createDoor () {
 }
 
 function createBase () {
-
+    Events.emit('entitycreate', {
+    element: 'a-entity', components: {
+      id: `base-${Date.now()}`,
+      'gltf-model': "#base-glb"
+    }
+  });
 }
 
 const FunctionButtons = [
@@ -123,77 +129,6 @@ export default function TransformToolbarVer2 (props) {
     Events.emit('transformmodechange', mode);
     ga('send', 'event', 'Toolbar', 'selectHelper', mode);
   };
-
-  function clientCoordsTo3DCanvasCoords (
-    clientX,
-    clientY,
-    offsetX,
-    offsetY,
-    clientWidth,
-    clientHeight
-  ) {
-    return {
-      x: (((clientX - offsetX) / clientWidth) * 2) - 1,
-      y: (-((clientY - offsetY) / clientHeight) * 2) + 1
-    };
-  }
-
-  let mouseXX = null;
-  let mouseYY = null;
-  let mouseXX2 = null;
-  let mouseYY2 = null;
-  // document.onmousedown = (e) => {
-  //   if (e instanceof CustomEvent) {
-  //     return;
-  //   }
-  //   const {x: mouseX, y: mouseY} = clientCoordsTo3DCanvasCoords(
-  //     e.clientX, e.clientY,
-  //     0, 0, // TODO: Replace with canvas position
-  //     window.innerWidth,
-  //     window.innerHeight
-  //   );
-  //   mouseXX = mouseX;
-  //   mouseYY = mouseY;
-  //   // console.log('x: ' + e.clientX + ' y: ' + e.clientY);
-  //   let mouse = new THREE.Vector2();
-  //   let camera = AFRAME.scenes[0].camera;
-  //   let rect = document.querySelector('body').getBoundingClientRect();
-  //   mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-  //   mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-  //   let vector = new THREE.Vector3(mouse.x, mouse.y, -1).unproject(camera);
-  //   mouseXX = vector.x;
-  //   mouseYY = vector.y;
-  //   console.log(vector);
-  //   console.log(mouseX + ':' + mouseY);
-  // };
-  // document.onmouseup = (e) => {
-  //   if (e instanceof CustomEvent) {
-  //     return;
-  //   }
-  //   const {x: mouseX, y: mouseY} = clientCoordsTo3DCanvasCoords(
-  //     e.clientX, e.clientY,
-  //     0, 0, // TODO: Replace with canvas position
-  //     window.innerWidth,
-  //     window.innerHeight
-  //   );
-  //   mouseXX2 = mouseX;
-  //   mouseYY2 = mouseY;
-  //   // console.log('x: ' + e.clientX + ' y: ' + e.clientY);
-  //   console.log(mouseX + ':' + mouseY);
-  //   // mouseYY && mouseXX &&
-  //   // Events.emit('entitycreate', {
-  //   //   element: 'a-entity', components: {
-  //   //     id: `wall-${Date.now()}`,
-  //   //     geometry: 'primitive: box',
-  //   //     // position: '1 1 1',
-  //   //     position: `${mouseXX} ${mouseYY} 1`,
-  //   //     scale: '6.536 3.5 0.14'
-  //   //
-  //   //   }
-  //   // });
-  //   mouseXX = null;
-  //   mouseYY = null;
-  // };
 
   function onFileChange (e) {
     console.log(e.target.files[0]);
