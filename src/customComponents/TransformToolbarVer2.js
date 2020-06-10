@@ -3,7 +3,10 @@ import ModelAPI from '../API/ModelAPI';
 import Modal from '../components/modals/Modal';
 
 var Events = require('../lib/Events.js');
-
+const getId = (type) =>{
+  console.log(type + "-" + Date.now());
+  return type + "-" + Date.now();
+}
 const TransformButtons = [
   {value: 'translate', icon: 'fa-arrows-alt'},
   {value: 'rotate', icon: 'fa-repeat'},
@@ -16,11 +19,10 @@ const openDialog = () => {
 
 function createWall () {
   Events.emit('entitycreate', {
-    element: 'a-entity', components: {
-      id: `wall-${Date.now()}`,
-      geometry: 'primitive: box',
-      scale: '6.536 3.5 0.14'
-
+    element: 'a-box', components: {
+      id: getId("wall"),
+      scale: '6.536 3.5 0.14',
+      color: "#cdc6c6"
     }
   });
 }
@@ -28,7 +30,7 @@ function createWall () {
 function createCheckPoint () {
   Events.emit('entitycreate', {
     element: 'a-entity', components: {
-      id: `checkpoint-${Date.now()}`,
+      id: getId("check-point"),
       geometry: 'primitive: sphere',
       scale: '6.536 3.5 0.14',
       'cursor-listener': ''
@@ -44,7 +46,7 @@ function uploadImage () {
 function createDoor () {
     Events.emit('entitycreate', {
     element: 'a-entity', components: {
-      id: `door-${Date.now()}`,
+      id: getId("door"),
       'gltf-model': "#door-glb"
     }
   });
@@ -53,7 +55,7 @@ function createDoor () {
 function createBase () {
     Events.emit('entitycreate', {
     element: 'a-entity', components: {
-      id: `base-${Date.now()}`,
+      id: getId("base"),
       'gltf-model': "#base-glb"
     }
   });

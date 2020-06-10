@@ -179,8 +179,8 @@ export default class Main extends React.Component {
   render () {
     const scene = this.state.sceneEl;
     const toggleButtonText = this.state.inspectorEnabled
-      ? 'Back to Scene'
-      : 'Inspect Scene';
+      ? 'Quay lại màn hình chính'
+      : 'Chỉnh sửa';
 
     return (
       <div>
