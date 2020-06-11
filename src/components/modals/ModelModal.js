@@ -76,14 +76,14 @@ export default function ModelModal (props) {
   useEffect(() => {
     !!modelLink && !!fileName && addModelEntity(fileName, modelLink);
     !!modelLink && !!cdnLink && addCdnModelEntity(modelLink);
-    console.log(modelLink)
+    console.log(modelLink);
     setModelLink('');
     setCdnLink('');
-    setFile('')
+    setFile('');
   }, [modelLink]);
 
   function confirmModel () {
-    // addModelEntity(Date.now(), 'abc');
+    let saveType = document.querySelector('input[name = "server"]:checked').value;
     if (!file && !!cdnLink) {
       setModelLink(cdnLink);
       props.onClose();
@@ -94,14 +94,24 @@ export default function ModelModal (props) {
       'model',
       file
     );
-    ModelAPI.uploadModel(formData)
-      .then(res => {
-        if (res.status === 200) {
-          setFileName(res.data.name);
-          setModelLink(res.data.link);
-        }
-        console.log(res);
-      });
+    saveType == 'local' ?
+      ModelAPI.uploadModel(formData)
+        .then(res => {
+          if (res.status === 200) {
+            setFileName(res.data.name);
+            setModelLink(res.data.link);
+          }
+          console.log(res);
+        })
+      :
+      ModelAPI.uploadModelToAws(formData)
+        .then(res => {
+          if (res.status === 200) {
+            setFileName(res.data.name);
+            setModelLink(res.data.link);
+          }
+          console.log(res);
+        });
     props.onClose();
 
   }
@@ -137,6 +147,14 @@ export default function ModelModal (props) {
             </li>
             <li>
               <span>Tải lên </span>
+
+              <ul>
+                <input type="radio" id="local" name="server" value="local"/>
+                <label htmlFor="local">Máy chủ hiện tại </label>
+                <input type="radio" id="aws" name="server" value="aws"/>
+                <label htmlFor="aws">CDN Amazon (Nên dùng với file > 20mb)</label>
+              </ul>
+
               <ul
                 // ref="registryGallery"
                 className="gallery">

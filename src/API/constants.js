@@ -4,5 +4,6 @@ export const DEFAULT_URL = 'http://localhost:3000';
 
 export const DEFAULT_MODEL_URL = DEFAULT_URL + '/model';
 export const DEFAULT_ENTITY_URL = DEFAULT_URL + '/entity';
+export const DEFAULT_AWS_URL = DEFAULT_URL + '/aws';
 
 export const DEFAULT_IMG_URL = DEFAULT_URL + '/images';
