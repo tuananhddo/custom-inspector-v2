@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from './Modal';
 import ModelAPI from '../../API/ModelAPI';
 import {Alert, Button} from 'reactstrap';
-import {getId} from '../../API/constants'
+import {getId} from '../../API/constants';
 
 export default function ModelModal (props) {
   var Events = require('../../lib/Events.js');
@@ -14,6 +14,9 @@ export default function ModelModal (props) {
   const [modelLink, setModelLink] = useState('');
   const [fileName, setFileName] = useState();
   const [cdnLink, setCdnLink] = useState('');
+  const [textureUpload, setTextureUpload] = useState(false);
+  const [textureFile, setTextureFile] = useState();
+
   useEffect(() => {
     generateFromAssets();
   }, [isOpen]);
@@ -33,9 +36,13 @@ export default function ModelModal (props) {
     setFile(e.target.files[0]);
   }
 
+  function onTextureFileChange (e) {
+    setTextureFile(e.target.files[0]);
+  }
+
   function addModelEntity (name, link) {
     const asset = document.querySelector('#mainAsset');
-    const assetId = getId("localModel");
+    const assetId = getId('localModel');
     Events.emit('entitycreate', {
       element: 'a-asset-item', components: {
         id: assetId,
@@ -45,7 +52,7 @@ export default function ModelModal (props) {
     const assetItem = document.querySelectorAll('a-asset-item');
     Events.emit('entitycreate', {
       element: 'a-entity', components: {
-        id: getId("model-3d"),
+        id: getId('model-3d'),
         'gltf-model': `#${assetId}`
       }
     });
@@ -66,7 +73,7 @@ export default function ModelModal (props) {
     });
     Events.emit('entitycreate', {
       element: 'a-entity', components: {
-        id: getId("cdn-load-3d"),
+        id: getId('cdn-load-3d'),
         'gltf-model': `#${assetId}`
       }
     });
@@ -115,6 +122,14 @@ export default function ModelModal (props) {
 
   }
 
+  /* TODO: Xuat File Obj: Voi Blender,
+      file image cần cùng thu mục file blender,
+      khi export cũng cần export cùng thư mục để img texture không bị lệch path
+      */
+  const setModelType = () => {
+    let modelType = document.querySelector('input[name = "type"]:checked').value;
+    modelType == 'obj' ? setTextureUpload(true) : setTextureUpload(false);
+  };
   return (
     <Modal
       id="modelModal"
@@ -150,16 +165,33 @@ export default function ModelModal (props) {
               <ul>
                 <input type="radio" id="local" name="server" value="local"/>
                 <label htmlFor="local">Máy chủ hiện tại </label>
-                <input type="radio" id="aws" name="server" value="aws"/>
+                <input type="radio" id="aws" name="server" value="aws" checked/>
                 <label htmlFor="aws">CDN Amazon (Nên dùng với file > 20mb)</label>
               </ul>
-
+              {/*<ul>*/}
+              {/*  <input type="radio" id="local" name="type" value="gltf" checked onClick={setModelType}/>*/}
+              {/*  <label htmlFor="local">GLTF</label>*/}
+              {/*  <input type="radio" id="aws" name="type" value="obj" onClick={setModelType}/>*/}
+              {/*  <label htmlFor="aws">OBJ</label>*/}
+              {/*</ul>*/}
+              {textureUpload &&
               <ul
                 // ref="registryGallery"
                 className="gallery">
                 {/*{this.renderRegistryImages()}*/}
                 {/*<label className="custom-file-label" htmlFor="customFile">Choose file</label>*/}
+                <label htmlFor="files" className="btn">Tải texture: </label>
 
+                <input id="texture" type="file" onChange={onTextureFileChange}/>
+
+              </ul>
+              }
+
+              <ul
+                // ref="registryGallery"
+                className="gallery">
+                {/*{this.renderRegistryImages()}*/}
+                <label className="custom-file-label" htmlFor="customFile">Tải Model</label>
                 <input id="customFile" type="file" onChange={onFileChange}/>
 
               </ul>
