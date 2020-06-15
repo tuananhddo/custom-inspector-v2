@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from './Modal';
 import ModelAPI from '../../API/ModelAPI';
 import {Alert, Button} from 'reactstrap';
-import {toast} from 'react-toastify';
-import Events from '../../lib/Events';
-import {DEFAULT_IMG_URL, DEFAULT_MODEL_URL} from '../../API/constants';
+import {getId} from '../../API/constants'
 
 export default function UploadImageModal (props) {
   var Events = require('../../lib/Events.js');
@@ -26,7 +24,6 @@ export default function UploadImageModal (props) {
     setAssetModel(images);
     console.log(images);
   };
-  const demoItem = 0;
 
   function onFileChange (e) {
     setFile(e.target.files[0]);
@@ -34,29 +31,24 @@ export default function UploadImageModal (props) {
 
   function addModelEntity (name, link) {
     const asset = document.querySelector('#mainAsset');
-    const assetId = name + Date.now();
+    const assetId = getId("image");
     Events.emit('entitycreate', {
       element: 'img', components: {
         id: assetId,
-        src: DEFAULT_IMG_URL + '/' + link
+        src: link
       }
     });
     const assetItem = document.querySelectorAll('a-asset-item');
     Events.emit('entitycreate', {
       element: 'a-image', components: {
-        id: `image-${assetId}`,
+        id: `loader-${assetId}`,
         src: `#${assetId}`
       }
     });
-    console.log(asset);
-    console.log(assetItem);
-    // Events.emit('entitycreate', { element: 'a-entity', components: {
-    //   gltf-model:
-    //   } });
   }
 
   function addCdnModelEntity (modelLink) {
-    let assetId = 'cdn-' + Date.now();
+    let assetId = getId('cdn');
     Events.emit('entitycreate', {
       element: 'a-asset-item', components: {
         id: assetId,
@@ -65,7 +57,7 @@ export default function UploadImageModal (props) {
     });
     Events.emit('entitycreate', {
       element: 'a-entity', components: {
-        id: `entity-${name}`,
+        id: getId("cdn-img"),
         'gltf-model': `#${assetId}`
       }
     });
