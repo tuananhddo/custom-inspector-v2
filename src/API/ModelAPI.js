@@ -27,10 +27,31 @@ export default {
       }
     });
   },
+  uploadImageToAws (data) {
+    return getAxios().post(`${DEFAULT_AWS_URL}/image`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
+  uploadAudio (data) {
+    return getAxios().post(`${DEFAULT_MODEL_URL}/audio`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
+  uploadAudioToAws (data) {
+    return getAxios().post(`${DEFAULT_AWS_URL}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
   createEntity (definition) {
     return getAxios().post(`${DEFAULT_URL}/sync/create`, definition);
   },
-  deleteEntity (id){
+  deleteEntity (id) {
     return getAxios().post(`${DEFAULT_URL}/sync/delete/${id}`);
   }
 };

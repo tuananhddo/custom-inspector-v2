@@ -12,10 +12,11 @@ export default function ModelModal (props) {
   const [assetsModel, setAssetModel] = useState([]);
   const [file, setFile] = useState();
   const [modelLink, setModelLink] = useState('');
-  const [fileName, setFileName] = useState();
   const [cdnLink, setCdnLink] = useState('');
   const [textureUpload, setTextureUpload] = useState(false);
   const [textureFile, setTextureFile] = useState();
+  const [audioFile, setAudioFile] = useState();
+  const [audioLink, setAudioLink] = useState('');
 
   useEffect(() => {
     generateFromAssets();
@@ -40,7 +41,11 @@ export default function ModelModal (props) {
     setTextureFile(e.target.files[0]);
   }
 
-  function addModelEntity (name, link) {
+  function onAudioFileChange (e) {
+    setAudioFile(e.target.files[0]);
+  }
+
+  function addModelEntity (link) {
     const asset = document.querySelector('#mainAsset');
     const assetId = getId('localModel');
     Events.emit('entitycreate', {
@@ -80,17 +85,47 @@ export default function ModelModal (props) {
   }
 
   useEffect(() => {
-    !!modelLink && !!fileName && addModelEntity(fileName, modelLink);
+    !!modelLink && addModelEntity(modelLink);
     !!modelLink && !!cdnLink && addCdnModelEntity(modelLink);
     console.log(modelLink);
     setModelLink('');
     setCdnLink('');
     setFile('');
+    setAudioFile('');
+    setAudioLink('');
   }, [modelLink]);
 
   function confirmModel () {
+    if (!file) {
+      return;
+    }
     let saveType = document.querySelector('input[name = "server"]:checked').value;
-    if (!file && !!cdnLink) {
+    if (!!audioFile) {
+      const formAudioData = new FormData();
+      formAudioData.append(
+        'audio',
+        audioFile
+      );
+      if (saveType == 'local') {
+        ModelAPI.uploadAudio(formAudioData)
+          .then(res => {
+            if (res.status === 200) {
+              setAudioLink(res.data.link);
+            }
+            console.log(res);
+          });
+      } else {
+        ModelAPI.uploadAudioToAws(formAudioData)
+          .then(res => {
+            if (res.status === 200) {
+              setAudioLink(res.data.link);
+            }
+            console.log(res);
+          });
+      }
+    }
+
+    if (!!cdnLink) {
       setModelLink(cdnLink);
       props.onClose();
       return;
@@ -100,24 +135,26 @@ export default function ModelModal (props) {
       'model',
       file
     );
-    saveType == 'local' ?
+
+    if (saveType == 'local') {
+
       ModelAPI.uploadModel(formData)
         .then(res => {
           if (res.status === 200) {
-            setFileName(res.data.name);
-            setModelLink(res.data.link);
-          }
-          console.log(res);
-        })
-      :
-      ModelAPI.uploadModelToAws(formData)
-        .then(res => {
-          if (res.status === 200) {
-            setFileName(res.data.name);
             setModelLink(res.data.link);
           }
           console.log(res);
         });
+    } else {
+
+      ModelAPI.uploadModelToAws(formData)
+        .then(res => {
+          if (res.status === 200) {
+            setModelLink(res.data.link);
+          }
+          console.log(res);
+        });
+    }
     props.onClose();
 
   }
@@ -186,7 +223,12 @@ export default function ModelModal (props) {
 
               </ul>
               }
+              <ul
+                className="gallery">
+                <label className="custom-file-label" htmlFor="customFile">Tải file âm thanh</label>
+                <input id="audioFile" type="file" onChange={onAudioFileChange}/>
 
+              </ul>
               <ul
                 // ref="registryGallery"
                 className="gallery">
