@@ -54,6 +54,7 @@ export function updateEntity (entity, propertyName, value) {
  * @param {boolean} force (Optional) If true it won't ask for confirmation.
  */
 export function removeEntity (entity, force) {
+  console.log(entity);
   if (entity) {
     if (
       force === true ||
@@ -102,7 +103,12 @@ function findClosestEntity (entity) {
  */
 export function removeSelectedEntity (force) {
   if (AFRAME.INSPECTOR.selectedEntity) {
-    removeEntity(AFRAME.INSPECTOR.selectedEntity, force);
+    let selected = AFRAME.INSPECTOR.selectedEntity;
+    !!selected && !!selected.getAttribute('id') && ModelAPI.deleteEntity(selected.getAttribute('id'))
+      .then(() => {
+        removeEntity(AFRAME.INSPECTOR.selectedEntity, force);
+
+      });
   }
 }
 
@@ -588,7 +594,7 @@ export function printEntity (entity, onDoubleClick) {
  * @return {Element} Entity created
  */
 export function createEntity (definition, cb) {
-  console.log(definition.components)
+  console.log(definition.components);
   if (!definition.components.id) {
     Object.defineProperty(definition.components,
       'id', {value: definition.element + Date.now()});

@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import ModelAPI from '../API/ModelAPI';
 import Modal from '../components/modals/Modal';
+import {getId} from '../API/constants';
 
 var Events = require('../lib/Events.js');
-const getId = (type) =>{
-  console.log(type + "-" + Date.now());
-  return type + "-" + Date.now();
-}
+import {removeSelectedEntity} from '../lib/entity';
+
 const TransformButtons = [
   {value: 'translate', icon: 'fa-arrows-alt'},
   {value: 'rotate', icon: 'fa-repeat'},
@@ -20,9 +19,9 @@ const openDialog = () => {
 function createWall () {
   Events.emit('entitycreate', {
     element: 'a-box', components: {
-      id: getId("wall"),
+      id: getId('wall'),
       scale: '6.536 3.5 0.14',
-      color: "#cdc6c6"
+      color: '#cdc6c6'
     }
   });
 }
@@ -30,7 +29,7 @@ function createWall () {
 function createCheckPoint () {
   Events.emit('entitycreate', {
     element: 'a-entity', components: {
-      id: getId("check-point"),
+      id: getId('check-point'),
       geometry: 'primitive: sphere',
       scale: '6.536 3.5 0.14',
       'cursor-listener': ''
@@ -44,21 +43,27 @@ function uploadImage () {
 }
 
 function createDoor () {
-    Events.emit('entitycreate', {
+  Events.emit('entitycreate', {
     element: 'a-entity', components: {
-      id: getId("door"),
-      'gltf-model': "#door-glb"
+      id: getId('door'),
+      'gltf-model': '#door-glb'
     }
   });
 }
 
 function createBase () {
-    Events.emit('entitycreate', {
+  Events.emit('entitycreate', {
     element: 'a-entity', components: {
-      id: getId("base"),
-      'gltf-model': "#base-glb"
+      id: getId('base'),
+      'gltf-model': '#base-glb'
     }
   });
+}
+
+function deleteEntity () {
+  let selected = AFRAME.INSPECTOR.selectedEntity;
+  console.log();
+  removeSelectedEntity(true);
 }
 
 const FunctionButtons = [
@@ -68,6 +73,7 @@ const FunctionButtons = [
   {value: 'Create Door', icon: 'fa-columns', onClick: createDoor},
   {value: 'Upload Image', icon: 'fa-picture-o', onClick: uploadImage},
   {value: 'Create Base For Object', icon: 'fa-hourglass', onClick: createBase},
+  {value: 'Delete', icon: 'fa-hourglass', onClick: deleteEntity}
 
 ];
 
@@ -81,6 +87,7 @@ export default function TransformToolbarVer2 (props) {
     });
   }, []);
   const renderTransformButtons = () => {
+
     return TransformButtons.map(
       (option, i) => {
         var selected = option.value === selectedTransform;

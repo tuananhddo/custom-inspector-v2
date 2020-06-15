@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import Modal from './Modal';
 import ModelAPI from '../../API/ModelAPI';
 import {Alert, Button} from 'reactstrap';
-import {toast} from 'react-toastify';
-import Events from '../../lib/Events';
-import {DEFAULT_MODEL_URL} from '../../API/constants';
+import {getId} from '../../API/constants'
 
 export default function ModelModal (props) {
   var Events = require('../../lib/Events.js');
@@ -37,17 +35,18 @@ export default function ModelModal (props) {
 
   function addModelEntity (name, link) {
     const asset = document.querySelector('#mainAsset');
+    const assetId = getId("localModel");
     Events.emit('entitycreate', {
       element: 'a-asset-item', components: {
-        id: name,
-        src: DEFAULT_MODEL_URL + '/' + link
+        id: assetId,
+        src: link
       }
     });
     const assetItem = document.querySelectorAll('a-asset-item');
     Events.emit('entitycreate', {
       element: 'a-entity', components: {
-        id: `entity-${name}`,
-        'gltf-model': `#${name}`
+        id: getId("model-3d"),
+        'gltf-model': `#${assetId}`
       }
     });
     console.log(asset);
@@ -67,7 +66,7 @@ export default function ModelModal (props) {
     });
     Events.emit('entitycreate', {
       element: 'a-entity', components: {
-        id: `entity-${name}`,
+        id: getId("cdn-load-3d"),
         'gltf-model': `#${assetId}`
       }
     });

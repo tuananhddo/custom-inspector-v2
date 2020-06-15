@@ -29,5 +29,8 @@ export default {
   },
   createEntity (definition) {
     return getAxios().post(`${DEFAULT_URL}/sync/create`, definition);
+  },
+  deleteEntity (id){
+    return getAxios().post(`${DEFAULT_URL}/sync/delete/${id}`);
   }
 };
