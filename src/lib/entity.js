@@ -594,7 +594,7 @@ export function printEntity (entity, onDoubleClick) {
  * @return {Element} Entity created
  */
 export function createEntity (definition, cb) {
-  console.log(definition.components);
+  console.log(definition);
   if (!definition.components.id) {
     Object.defineProperty(definition.components,
       'id', {value: definition.element + Date.now()});
@@ -615,8 +615,12 @@ export function createEntity (definition, cb) {
     Events.emit('entitycreated', entity);
     cb(entity);
   });
-
-  AFRAME.scenes[0].appendChild(entity);
+  if (definition.element == 'a-asset-item' || definition.element == 'img' || definition.element == 'audio' || definition.element == 'video') {
+    let mySceneAssets = document.querySelector('a-assets');
+    mySceneAssets.appendChild(entity);
+  } else {
+    AFRAME.scenes[0].appendChild(entity);
+  }
 
   return entity;
 }

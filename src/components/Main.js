@@ -14,6 +14,7 @@ import {injectCSS} from '../lib/utils';
 import ModelModal from './modals/ModelModal';
 import TransformToolbarVer2 from '../customComponents/TransformToolbarVer2';
 import UploadImageModal from './modals/UploadImageModal';
+import VideoUploadModal from './modals/VideoUploadModal';
 
 // Megahack to include font-awesome.
 injectCSS('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
@@ -28,6 +29,7 @@ export default class Main extends React.Component {
       isModalTexturesOpen: false,
       isModelModalOpen: false,
       isUploadImageModalOpen: false,
+      isUploadVideoModalOpen: false,
       sceneEl: AFRAME.scenes[0],
       visible: {
         scenegraph: true,
@@ -103,6 +105,16 @@ export default class Main extends React.Component {
         });
       }.bind(this)
     );
+    Events.on(
+      'openUploadVideoModal',
+      function (selectedModel, modelOnClose) {
+        this.setState({
+          selectedModel: selectedModel,
+          isUploadVideoModalOpen: true,
+          modelOnClose: modelOnClose
+        });
+      }.bind(this)
+    );
     Events.on('entityselect', entity => {
       this.setState({entity: entity});
     });
@@ -124,6 +136,9 @@ export default class Main extends React.Component {
   };
   onCloseUploadImageModal = value => {
     this.setState({isUploadImageModalOpen: false});
+  };
+  onCloseUploadVideoModal = value => {
+    this.setState({isUploadVideoModalOpen: false});
   };
   onModalTextureOnClose = value => {
     this.setState({isModalTexturesOpen: false});
@@ -211,12 +226,12 @@ export default class Main extends React.Component {
             {/*<ViewportHUD/>*/}
             <TransformToolbarVer2/>
           </div>
-          <div id="rightPanel">
-            <ComponentsSidebar
-              entity={this.state.entity}
-              visible={this.state.visible.attributes}
-            />
-          </div>
+          {/*<div id="rightPanel">*/}
+          {/*  <ComponentsSidebar*/}
+          {/*    entity={this.state.entity}*/}
+          {/*    visible={this.state.visible.attributes}*/}
+          {/*  />*/}
+          {/*</div>*/}
         </div>
 
         <ModalHelp
@@ -240,6 +255,11 @@ export default class Main extends React.Component {
           isOpen={this.state.isUploadImageModalOpen}
           selectedModel={this.state.selectedModel}
           onClose={this.onCloseUploadImageModal}
+        />
+        <VideoUploadModal
+          isOpen={this.state.isUploadVideoModalOpen}
+          selectedModel={this.state.selectedModel}
+          onClose={this.onCloseUploadVideoModal}
         />
       </div>
     );

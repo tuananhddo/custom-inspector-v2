@@ -4,7 +4,49 @@ import Modal from './Modal';
 import ModelAPI from '../../API/ModelAPI';
 import {Alert, Button} from 'reactstrap';
 import {getId} from '../../API/constants';
+import {s3upload} from '../../API/awsAPI';
 
+const getModelFileName = () => {
+  let fullPath = document.getElementById('customFile').value;
+  if (fullPath) {
+    var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+    var filename = fullPath.substring(startIndex);
+    if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+      filename = filename.substring(1);
+    }
+  }
+  return filename;
+};
+
+const uploadModel = async (file, audioFile, setAudioLink, setModelLink, saveType) => {
+  const formModelData = new FormData();
+  formModelData.append(
+    'model',
+    file
+  );
+  if (!!audioFile) {
+    const formAudioData = new FormData();
+    formAudioData.append(
+      'audio',
+      audioFile
+    );
+    const resAudio = await ModelAPI.uploadAudio(formAudioData);
+    if (resAudio.status == 200) {
+      setAudioLink(resAudio.data.link);
+    }
+  }
+  let resModel = {data: {link: ''}};
+  let modelFileName = getModelFileName();
+  if (saveType == 'local') {
+    resModel = await ModelAPI.uploadModel(formModelData);
+  } else {
+    s3upload(file, modelFileName, setModelLink);
+  }
+  // const resModel = (saveType == 'local') ? await ModelAPI.uploadModel(formModelData) : s3upload(file, modelFileName);
+  console.log(resModel);
+  setModelLink(resModel.data.link);
+
+};
 export default function ModelModal (props) {
   var Events = require('../../lib/Events.js');
 
@@ -26,11 +68,6 @@ export default function ModelModal (props) {
     var images = Array.prototype
       .slice.call(document.querySelectorAll('a-assets a-asset-item[src][flag=model]'));
     setAssetModel(images);
-    console.log(images);
-  };
-  const demoItem = 0;
-  const modelClick = () => {
-    Events.emit('updateModelUploadedList', demoItem);
   };
 
   function onFileChange (e) {
@@ -45,49 +82,38 @@ export default function ModelModal (props) {
     setAudioFile(e.target.files[0]);
   }
 
-  function addModelEntity (link) {
+  function addModelEntity (link, audioLink) {
     const asset = document.querySelector('#mainAsset');
     const assetId = getId('localModel');
+    const audioId = getId('audio');
     Events.emit('entitycreate', {
       element: 'a-asset-item', components: {
         id: assetId,
         src: link
       }
     });
+    !!audioLink && Events.emit('entitycreate', {
+      element: 'audio', components: {
+        id: audioId,
+        src: audioLink
+      }
+    });
     const assetItem = document.querySelectorAll('a-asset-item');
-    Events.emit('entitycreate', {
-      element: 'a-entity', components: {
-        id: getId('model-3d'),
-        'gltf-model': `#${assetId}`
-      }
-    });
-    console.log(asset);
-    console.log(assetItem);
-    // Events.emit('entitycreate', { element: 'a-entity', components: {
-    //   gltf-model:
-    //   } });
-  }
+    setTimeout(function () {
+      Events.emit('entitycreate', {
+        element: 'a-entity', components: {
+          id: getId('model-3d'),
+          'gltf-model': `#${assetId}`,
+          sound: `src: #${audioId}`,
+          audiohandler: ''
+        }
+      });
+    }, 1000);
 
-  function addCdnModelEntity (modelLink) {
-    let assetId = 'cdn-' + Date.now();
-    Events.emit('entitycreate', {
-      element: 'a-asset-item', components: {
-        id: assetId,
-        src: modelLink
-      }
-    });
-    Events.emit('entitycreate', {
-      element: 'a-entity', components: {
-        id: getId('cdn-load-3d'),
-        'gltf-model': `#${assetId}`
-      }
-    });
   }
 
   useEffect(() => {
-    !!modelLink && addModelEntity(modelLink);
-    !!modelLink && !!cdnLink && addCdnModelEntity(modelLink);
-    console.log(modelLink);
+    !!modelLink && addModelEntity(modelLink, audioLink);
     setModelLink('');
     setCdnLink('');
     setFile('');
@@ -96,73 +122,37 @@ export default function ModelModal (props) {
   }, [modelLink]);
 
   function confirmModel () {
-    if (!file) {
+    if (!file && !cdnLink.trim()) {
+      props.onClose();
+
       return;
     }
-    let saveType = document.querySelector('input[name = "server"]:checked').value;
-    if (!!audioFile) {
-      const formAudioData = new FormData();
-      formAudioData.append(
-        'audio',
-        audioFile
-      );
-      if (saveType == 'local') {
+    if (cdnLink.trim()) {
+      if (!!audioFile) {
+        const formAudioData = new FormData();
+        formAudioData.append(
+          'audio',
+          audioFile
+        );
         ModelAPI.uploadAudio(formAudioData)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status == 200) {
               setAudioLink(res.data.link);
+              setModelLink(cdnLink);
             }
-            console.log(res);
           });
-      } else {
-        ModelAPI.uploadAudioToAws(formAudioData)
-          .then(res => {
-            if (res.status === 200) {
-              setAudioLink(res.data.link);
-            }
-            console.log(res);
-          });
-      }
-    }
 
-    if (!!cdnLink) {
-      setModelLink(cdnLink);
+      }
       props.onClose();
       return;
     }
-    const formData = new FormData();
-    formData.append(
-      'model',
-      file
-    );
+    let saveType = document.querySelector('input[name = "server"]:checked').value;
+    uploadModel(file, audioFile, setAudioLink, setModelLink, saveType);
 
-    if (saveType == 'local') {
-
-      ModelAPI.uploadModel(formData)
-        .then(res => {
-          if (res.status === 200) {
-            setModelLink(res.data.link);
-          }
-          console.log(res);
-        });
-    } else {
-
-      ModelAPI.uploadModelToAws(formData)
-        .then(res => {
-          if (res.status === 200) {
-            setModelLink(res.data.link);
-          }
-          console.log(res);
-        });
-    }
     props.onClose();
 
   }
 
-  /* TODO: Xuat File Obj: Voi Blender,
-      file image cần cùng thu mục file blender,
-      khi export cũng cần export cùng thư mục để img texture không bị lệch path
-      */
   const setModelType = () => {
     let modelType = document.querySelector('input[name = "type"]:checked').value;
     modelType == 'obj' ? setTextureUpload(true) : setTextureUpload(false);
@@ -202,7 +192,7 @@ export default function ModelModal (props) {
               <ul>
                 <input type="radio" id="local" name="server" value="local"/>
                 <label htmlFor="local">Máy chủ hiện tại </label>
-                <input type="radio" id="aws" name="server" value="aws" checked/>
+                <input type="radio" id="aws" name="server" value="aws" defaultChecked/>
                 <label htmlFor="aws">CDN Amazon (Nên dùng với file > 20mb)</label>
               </ul>
               {/*<ul>*/}
@@ -226,7 +216,7 @@ export default function ModelModal (props) {
               <ul
                 className="gallery">
                 <label className="custom-file-label" htmlFor="customFile">Tải file âm thanh</label>
-                <input id="audioFile" type="file" onChange={onAudioFileChange}/>
+                <input id="audioFile" type="file" onChange={onAudioFileChange} accept=".mp3,.wav"/>
 
               </ul>
               <ul
@@ -234,7 +224,7 @@ export default function ModelModal (props) {
                 className="gallery">
                 {/*{this.renderRegistryImages()}*/}
                 <label className="custom-file-label" htmlFor="customFile">Tải Model</label>
-                <input id="customFile" type="file" onChange={onFileChange}/>
+                <input id="customFile" type="file" onChange={onFileChange} accept=".gltf,.glb"/>
 
               </ul>
             </li>

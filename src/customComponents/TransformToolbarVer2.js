@@ -15,6 +15,10 @@ const openDialog = () => {
   Events.emit('openModelModal', '', item => {
   });
 };
+const openVideoDialog = () => {
+  Events.emit('openUploadVideoModal', '', item => {
+  });
+};
 
 function createWall () {
   Events.emit('entitycreate', {
@@ -22,6 +26,15 @@ function createWall () {
       id: getId('wall'),
       scale: '6.536 3.5 0.14',
       color: '#cdc6c6'
+    }
+  });
+}
+
+function createLight () {
+  Events.emit('entitycreate', {
+    element: 'a-entity', components: {
+      id: getId('light'),
+      light: 'directional'
     }
   });
 }
@@ -62,18 +75,32 @@ function createBase () {
 
 function deleteEntity () {
   let selected = AFRAME.INSPECTOR.selectedEntity;
-  console.log();
-  removeSelectedEntity(true);
+  if (confirm('Bạn có chắc muốn xóa đối tượng')) {
+      removeSelectedEntity(true);
+  }
+
+}
+
+function resetProfile () {
+  if (confirm('Bạn có chắc muốn reset hồ sơ triển lãm')) {
+    ModelAPI.reset().then(
+      location.reload()
+    );
+  }
+
 }
 
 const FunctionButtons = [
-  {value: 'Create Model', icon: 'fa-angle-double-up', onClick: openDialog},
-  {value: 'Create Wall', icon: 'fa-map-o', onClick: createWall},
-  {value: 'Create Checkpoint', icon: 'fa-bullseye', onClick: createCheckPoint},
-  {value: 'Create Door', icon: 'fa-columns', onClick: createDoor},
+  {value: 'Add Model', icon: 'fa-angle-double-up', onClick: openDialog},
+  {value: 'Add Light', icon: 'fa-angle-double-up', onClick: createLight},
+  {value: 'Add Wall', icon: 'fa-map-o', onClick: createWall},
+  {value: 'Add Checkpoint', icon: 'fa-bullseye', onClick: createCheckPoint},
+  {value: 'Add Door', icon: 'fa-columns', onClick: createDoor},
   {value: 'Upload Image', icon: 'fa-picture-o', onClick: uploadImage},
-  {value: 'Create Base For Object', icon: 'fa-hourglass', onClick: createBase},
-  {value: 'Delete', icon: 'fa-hourglass', onClick: deleteEntity}
+  {value: 'Add Base For Object', icon: 'fa-hourglass', onClick: createBase},
+  {value: 'Delete', icon: 'fa-hourglass', onClick: deleteEntity},
+  {value: 'Add Video', icon: 'fa-angle-double-up', onClick: openVideoDialog},
+  {value: 'Reset', icon: 'fa-angle-double-up', onClick: resetProfile}
 
 ];
 

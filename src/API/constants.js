@@ -12,6 +12,7 @@ export const removeSpecChar = (str) =>{
   return str.replace(/[^a-zA-Z]/g, "");// your code goes here
 }
 export const getId = (type) =>{
-  console.log(type + "-" + Date.now());
   return type + "-" + Date.now();
 }
+const lastPath = window.location.pathname.lastIndexOf('/');
+export const profileId = window.location.pathname.slice(lastPath + 1)

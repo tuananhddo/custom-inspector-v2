@@ -22,7 +22,6 @@ export default function UploadImageModal (props) {
     var images = Array.prototype
       .slice.call(document.querySelectorAll('a-assets a-asset-item[src][flag=model]'));
     setAssetModel(images);
-    console.log(images);
   };
 
   function onFileChange (e) {

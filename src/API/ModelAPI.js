@@ -1,5 +1,5 @@
 import getAxios from './axiosConfig';
-import {DEFAULT_AWS_URL, DEFAULT_ENTITY_URL, DEFAULT_MODEL_URL, DEFAULT_URL} from './constants';
+import {DEFAULT_AWS_URL, DEFAULT_ENTITY_URL, DEFAULT_MODEL_URL, DEFAULT_URL, profileId} from './constants';
 
 export default {
 
@@ -8,6 +8,13 @@ export default {
   },
   uploadModel (data) {
     return getAxios().post(`${DEFAULT_MODEL_URL}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+  },
+  uploadModelChunk (data, fileName, total, current) {
+    return getAxios().post(`${DEFAULT_MODEL_URL}/chunk/${fileName}/${total}/${current}`, data, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -49,9 +56,12 @@ export default {
     });
   },
   createEntity (definition) {
-    return getAxios().post(`${DEFAULT_URL}/sync/create`, definition);
+    return getAxios().post(`${DEFAULT_URL}/profile/${profileId}/create`, definition);
   },
   deleteEntity (id) {
-    return getAxios().post(`${DEFAULT_URL}/sync/delete/${id}`);
+    return getAxios().post(`${DEFAULT_URL}/profile/${profileId}/delete/${id}`);
+  },
+  reset () {
+    return getAxios().post(`${DEFAULT_URL}/profile/${profileId}/reset`);
   }
 };

@@ -5,7 +5,7 @@ var postcssImport = require('postcss-import');
 var webpack = require('webpack');
 
 // Add HMR for development environments only.
-var entry = ['./src/index.js'];
+var entry = ['babel-polyfill', './src/index.js'];
 if (process.env.NODE_ENV === 'dev') {
   entry = [
     'webpack-dev-server/client?http://localhost:3333'
