@@ -59,6 +59,7 @@ export default function ModelModal (props) {
   const [textureFile, setTextureFile] = useState();
   const [audioFile, setAudioFile] = useState();
   const [audioLink, setAudioLink] = useState('');
+  const [des, setDes] = useState('');
 
   useEffect(() => {
     generateFromAssets();
@@ -105,7 +106,9 @@ export default function ModelModal (props) {
           id: getId('model-3d'),
           'gltf-model': `#${assetId}`,
           sound: `src: #${audioId}`,
-          audiohandler: ''
+          audiohandler: '',
+          detailhandler:'',
+          description: des
         }
       });
     }, 1000);
@@ -119,6 +122,7 @@ export default function ModelModal (props) {
     setFile('');
     setAudioFile('');
     setAudioLink('');
+    setDes('')
   }, [modelLink]);
 
   function confirmModel () {
@@ -172,7 +176,7 @@ export default function ModelModal (props) {
 
         <div className="new_asset_options">
 
-          <span>Load a new texture from one of these sources:</span>
+          <span>Load a new model from one of these sources:</span>
           <ul>
             <li>
               <span>From URL (and press Enter):</span>{' '}
@@ -247,12 +251,26 @@ export default function ModelModal (props) {
           {/*  // onChange={this.onNameChanged}*/}
           {/*  // onKeyUp={this.onNameKeyUp}*/}
           {/*/>*/}
-          <img
-            // ref="preview"
-            width="155px"
-            height="155px"
-            // src={preview.src}
-          />
+          <textarea
+            id="w3review"
+            name="w3review"
+            className='detail'
+            rows="20"
+            cols="50"
+            value={des}
+            onChange={ (e)=>{
+              console.log(e.target.value)
+              setDes(e.target.value)
+            }}
+            placeholder={'Mô tả vật thể'}
+          >
+          </textarea>
+          {/*<img*/}
+          {/*  // ref="preview"*/}
+          {/*  width="155px"*/}
+          {/*  height="155px"*/}
+          {/*  // src={preview.src}*/}
+          {/*/>*/}
           {/*{this.state.preview.loaded ? (*/}
           {/*  <div className="detail">*/}
           {/*      <span className="title" title={preview.filename}>*/}
