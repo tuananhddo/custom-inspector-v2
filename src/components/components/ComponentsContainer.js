@@ -4,6 +4,7 @@ import AddComponent from './AddComponent';
 import Component from './Component';
 import CommonComponents from './CommonComponents';
 import DEFAULT_COMPONENTS from './DefaultComponents';
+import {buildedComponents} from '../../API&Constant/constants';
 
 export default class ComponentsContainer extends React.Component {
   static propTypes = {
@@ -14,14 +15,19 @@ export default class ComponentsContainer extends React.Component {
     this.forceUpdate();
   };
 
-  render() {
+  render () {
     const entity = this.props.entity;
     const components = entity ? entity.components : {};
-    const definedComponents = Object.keys(components).filter(function(key) {
+    const definedComponents = Object.keys(components).filter(function (key) {
       return DEFAULT_COMPONENTS.indexOf(key) === -1;
     });
+    const filtedComponents = definedComponents.filter((item) => {
+      return buildedComponents.includes(item);
+    });
+    console.log(definedComponents);
+    console.log(filtedComponents);
 
-    const renderedComponents = definedComponents.sort().map(function(key) {
+    const renderedComponents = filtedComponents.sort().map(function (key) {
       return (
         <Component
           isCollapsed={definedComponents.length > 2}
@@ -36,7 +42,7 @@ export default class ComponentsContainer extends React.Component {
     return (
       <div className="components">
         <CommonComponents entity={entity} />
-        <AddComponent entity={entity} />
+        {/*<AddComponent entity={entity} />*/}
         {renderedComponents}
       </div>
     );

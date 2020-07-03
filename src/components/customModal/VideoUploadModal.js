@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../modals/Modal';
-import ModelAPI from '../../API/ModelAPI';
+import ModelAPI from '../../API&Constant/ModelAPI';
 import {Alert, Button} from 'reactstrap';
-import {getId} from '../../API/constants';
-import {s3upload} from '../../API/awsAPI';
+import {getId} from '../../API&Constant/constants';
+import {s3upload} from '../../API&Constant/awsAPI';
 
 const getModelFileName = () => {
   let fullPath = document.getElementById('customVideoFile').value;

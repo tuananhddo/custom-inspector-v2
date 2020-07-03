@@ -3,7 +3,7 @@ import React from 'react';
 var Events = require('../lib/Events.js');
 
 import {equal} from '../lib/utils.js';
-import ModelAPI from '../API/ModelAPI';
+import ModelAPI from '../API&Constant/ModelAPI';
 
 /**
  * Update a component.

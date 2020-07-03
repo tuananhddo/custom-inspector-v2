@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { InputWidget } from '../widgets';
+import {InputWidget} from '../widgets';
 import DEFAULT_COMPONENTS from './DefaultComponents';
 import PropertyRow from './PropertyRow';
 import Collapsible from '../Collapsible';
@@ -12,10 +12,11 @@ import {
 } from '../../lib/entity';
 import Events from '../../lib/Events';
 import Clipboard from 'clipboard';
-import { saveBlob } from '../../lib/utils';
+import {saveBlob} from '../../lib/utils';
+import InputId from '../../customComponents/EntityId';
 
 // @todo Take this out and use updateEntity?
-function changeId(componentName, value) {
+function changeId (componentName, value) {
   var entity = AFRAME.INSPECTOR.selectedEntity;
   if (entity.id !== value) {
     entity.id = value;
@@ -28,7 +29,7 @@ export default class CommonComponents extends React.Component {
     entity: PropTypes.object
   };
 
-  componentDidMount() {
+  componentDidMount () {
     Events.on('entityupdate', detail => {
       if (detail.entity !== this.props.entity) {
         return;
@@ -52,7 +53,7 @@ export default class CommonComponents extends React.Component {
     });
   }
 
-  renderCommonAttributes() {
+  renderCommonAttributes () {
     const entity = this.props.entity;
     const components = entity ? entity.components : {};
     return ['position', 'rotation', 'scale', 'visible'].map(componentName => {
@@ -81,22 +82,22 @@ export default class CommonComponents extends React.Component {
     });
   }
 
-  exportToGLTF() {
+  exportToGLTF () {
     const entity = this.props.entity;
     AFRAME.INSPECTOR.exporters.gltf.parse(
       entity.object3D,
-      function(buffer) {
-        const blob = new Blob([buffer], { type: 'application/octet-stream' });
+      function (buffer) {
+        const blob = new Blob([buffer], {type: 'application/octet-stream'});
         saveBlob(blob, (entity.id || 'entity') + '.glb');
       },
-      { binary: true }
+      {binary: true}
     );
   }
 
-  render() {
+  render () {
     const entity = this.props.entity;
     if (!entity) {
-      return <div />;
+      return <div/>;
     }
     const entityButtons = (
       <div>
@@ -106,8 +107,8 @@ export default class CommonComponents extends React.Component {
           onClick={event => {
             this.exportToGLTF();
             event.stopPropagation();
-          }} >
-          <img src={process.env.NODE_ENV === 'production' ? 'https://aframe.io/aframe-inspector/assets/gltf.svg' : '../assets/gltf.svg'} />
+          }}>
+          <img src={'https://aframe.io/aframe-inspector/assets/gltf.svg'}/>
         </a>
         <a
           href="#"
@@ -130,8 +131,13 @@ export default class CommonComponents extends React.Component {
             <label htmlFor="id" className="text">
               ID
             </label>
-            <InputWidget
-              onChange={changeId}
+            {/*<InputWidget*/}
+            {/*  onChange={changeId}*/}
+            {/*  entity={entity}*/}
+            {/*  name="id"*/}
+            {/*  value={entity.id}*/}
+            {/*/>*/}
+            <InputId
               entity={entity}
               name="id"
               value={entity.id}
@@ -142,7 +148,7 @@ export default class CommonComponents extends React.Component {
             <span>{entity.getAttribute('class')}</span>
           </div>
           {this.renderCommonAttributes()}
-          <Mixins entity={entity} />
+          {/*<Mixins entity={entity} />*/}
         </div>
       </Collapsible>
     );

@@ -44,7 +44,7 @@ export default class Collapsible extends React.Component {
 
     return (
       <div id={this.props.id} className={rootClasses}>
-        <div className="static" onClick={this.toggleVisibility}>
+        <div className="static" style={{height: '40px'}} onClick={this.toggleVisibility}>
           <div className="collapse-button" />
           {this.props.children[0]}
         </div>

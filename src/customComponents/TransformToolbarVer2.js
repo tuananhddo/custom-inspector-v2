@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import ModelAPI from '../API/ModelAPI';
+import ModelAPI from '../API&Constant/ModelAPI';
 import Modal from '../components/modals/Modal';
-import {getId} from '../API/constants';
+import {getId} from '../API&Constant/constants';
 
 var Events = require('../lib/Events.js');
 import {removeSelectedEntity} from '../lib/entity';

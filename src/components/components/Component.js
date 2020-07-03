@@ -125,8 +125,10 @@ export default class Component extends React.Component {
         />
       ));
   };
-
   render() {
+    // const header = {
+    //   padd
+    // }
     let componentName = this.props.name;
     let subComponentName = '';
     if (componentName.indexOf('__') !== -1) {

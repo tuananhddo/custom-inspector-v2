@@ -13,7 +13,7 @@ import { initCameras } from './lib/cameras';
 import { injectCSS, injectJS } from './lib/utils';
 import { createEntity } from './lib/entity';
 import { GLTFExporter } from '../vendor/GLTFExporter'; // eslint-disable-line no-unused-vars
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 require('./style/index.styl');
 
 function Inspector() {

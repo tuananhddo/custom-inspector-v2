@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import React from 'react';
 import Events from '../../lib/Events.js';
 import { saveBlob, saveString } from '../../lib/utils';
-import {DEFAULT_URL, profileId} from '../../API/constants';
+import {DEFAULT_URL, profileId} from '../../API&Constant/constants';
 
 const LOCALSTORAGE_MOCAP_UI = 'aframeinspectormocapuienabled';
 

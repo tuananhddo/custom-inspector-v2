@@ -15,6 +15,7 @@ import ModelModal from './customModal/ModelModal';
 import TransformToolbarVer2 from '../customComponents/TransformToolbarVer2';
 import UploadImageModal from './customModal/UploadImageModal';
 import VideoUploadModal from './customModal/VideoUploadModal';
+import {Button} from 'reactstrap';
 
 // Megahack to include font-awesome.
 injectCSS('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
@@ -225,13 +226,14 @@ export default class Main extends React.Component {
             {/*<CameraToolbar/>*/}
             {/*<ViewportHUD/>*/}
             <TransformToolbarVer2/>
+            <Button color="primary"></Button>
           </div>
-          {/*<div id="rightPanel">*/}
-          {/*  <ComponentsSidebar*/}
-          {/*    entity={this.state.entity}*/}
-          {/*    visible={this.state.visible.attributes}*/}
-          {/*  />*/}
-          {/*</div>*/}
+          <div id="rightPanel">
+            <ComponentsSidebar
+              entity={this.state.entity}
+              visible={this.state.visible.attributes}
+            />
+          </div>
         </div>
 
         <ModalHelp
