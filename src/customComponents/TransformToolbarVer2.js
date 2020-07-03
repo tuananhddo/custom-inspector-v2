@@ -7,9 +7,9 @@ var Events = require('../lib/Events.js');
 import {removeSelectedEntity} from '../lib/entity';
 
 const TransformButtons = [
-  {value: 'translate', icon: 'fa-arrows-alt'},
-  {value: 'rotate', icon: 'fa-repeat'},
-  {value: 'scale', icon: 'fa-expand'}
+  {name: 'Di chuyển', value: 'translate', icon: 'fa-arrows-alt'},
+  {name: 'Xoay', value: 'rotate', icon: 'fa-repeat'},
+  {name: 'Co giãn', value: 'scale', icon: 'fa-expand'}
 ];
 const openDialog = () => {
   Events.emit('openModelModal', '', item => {
@@ -76,7 +76,7 @@ function createBase () {
 function deleteEntity () {
   let selected = AFRAME.INSPECTOR.selectedEntity;
   if (confirm('Bạn có chắc muốn xóa đối tượng')) {
-      removeSelectedEntity(true);
+    removeSelectedEntity(true);
   }
 
 }
@@ -91,16 +91,16 @@ function resetProfile () {
 }
 
 const FunctionButtons = [
-  {value: 'Add Model', icon: 'fa-angle-double-up', onClick: openDialog},
-  {value: 'Add Light', icon: 'fa-angle-double-up', onClick: createLight},
-  {value: 'Add Wall', icon: 'fa-map-o', onClick: createWall},
-  {value: 'Add Checkpoint', icon: 'fa-bullseye', onClick: createCheckPoint},
-  {value: 'Add Door', icon: 'fa-columns', onClick: createDoor},
-  {value: 'Upload Image', icon: 'fa-picture-o', onClick: uploadImage},
-  {value: 'Add Base For Object', icon: 'fa-hourglass', onClick: createBase},
-  {value: 'Delete', icon: 'fa-hourglass', onClick: deleteEntity},
-  {value: 'Add Video', icon: 'fa-angle-double-up', onClick: openVideoDialog},
-  {value: 'Reset', icon: 'fa-angle-double-up', onClick: resetProfile}
+  {value: 'Thêm Mô hình', icon: 'fa-angle-double-up', onClick: openDialog},
+  {value: 'Thêm ánh sáng', icon: 'fa-lightbulb-o', onClick: createLight},
+  {value: 'Thêm tường', icon: 'fa-map-o', onClick: createWall},
+  {value: 'Thêm điểm dừng', icon: 'fa-bullseye', onClick: createCheckPoint},
+  {value: 'Thêm cửa', icon: 'fa-columns', onClick: createDoor},
+  {value: 'Thêm ảnh', icon: 'fa-picture-o', onClick: uploadImage},
+  {value: 'Thêm bệ đỡ', icon: 'fa-hourglass', onClick: createBase},
+  {value: 'Xóa đối tượng', icon: 'fa-times', onClick: deleteEntity},
+  {value: 'Thêm video', icon: 'fa-file-video-o', onClick: openVideoDialog},
+  {value: 'Đặt lại', icon: 'fa-recycle', onClick: resetProfile}
 
 ];
 
@@ -127,7 +127,7 @@ export default function TransformToolbarVer2 (props) {
 
         return (
           <a
-            title={option.value}
+            title={option.name}
             value={option.value}
             key={i}
             onClick={() => changeTransformMode(option.value)}

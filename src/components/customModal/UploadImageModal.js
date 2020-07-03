@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import Modal from './Modal';
+import Modal from '../modals/Modal';
 import ModelAPI from '../../API/ModelAPI';
 import {Alert, Button} from 'reactstrap';
 import {getId} from '../../API/constants'

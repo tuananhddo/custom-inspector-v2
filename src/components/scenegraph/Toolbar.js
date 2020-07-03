@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import React from 'react';
 import Events from '../../lib/Events.js';
 import { saveBlob, saveString } from '../../lib/utils';
-import {DEFAULT_URL} from '../../API/constants';
+import {DEFAULT_URL, profileId} from '../../API/constants';
 
 const LOCALSTORAGE_MOCAP_UI = 'aframeinspectormocapuienabled';
 
@@ -71,9 +71,9 @@ export default class Toolbar extends React.Component {
    */
   writeChanges = () => {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', DEFAULT_URL + '/sync/save');
+    xhr.open('POST', DEFAULT_URL + '/profile/' + profileId  + '/save');
     xhr.onerror = () => {
-      alert('aframe-watcher not running. This feature requires a companion service running locally. npm install aframe-watcher to save changes back to file. Read more at supermedium.com/aframe-watcher');
+      alert('Có lỗi xảy ra trong quá trình đồng bộ');
     };
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(AFRAME.INSPECTOR.history.updates));
@@ -98,27 +98,27 @@ export default class Toolbar extends React.Component {
       fa: true,
       'fa-save': true
     });
-    const watcherTitle = 'Write changes with aframe-watcher.';
+    const watcherTitle = 'Lưu chỉnh sửa';
 
     return (
       <div id="toolbar">
         <div className="toolbarActions">
-          <a
-            className="button fa fa-plus"
-            title="Add a new entity"
-            onClick={this.addEntity}
-          />
-          <a
-            id="playPauseScene"
-            className={'button fa ' + (this.state.isPlaying ? 'fa-pause' : 'fa-play')}
-            title={this.state.isPlaying ? 'Pause scene' : 'Resume scene'}
-            onClick={this.toggleScenePlaying}>
-          </a>
+          {/*<a*/}
+          {/*  className="button fa fa-plus"*/}
+          {/*  title="Add a new entity"*/}
+          {/*  onClick={this.addEntity}*/}
+          {/*/>*/}
+          {/*<a*/}
+          {/*  id="playPauseScene"*/}
+          {/*  className={'button fa ' + (this.state.isPlaying ? 'fa-pause' : 'fa-play')}*/}
+          {/*  title={this.state.isPlaying ? 'Pause scene' : 'Resume scene'}*/}
+          {/*  onClick={this.toggleScenePlaying}>*/}
+          {/*</a>*/}
           <a
             className="gltfIcon"
             title="Export to GLTF"
             onClick={this.exportSceneToGLTF}>
-            <img src={process.env.NODE_ENV === 'production' ? 'https://aframe.io/aframe-inspector/assets/gltf.svg' : '../assets/gltf.svg'} />
+            <img src={'https://aframe.io/aframe-inspector/assets/gltf.svg'} />
           </a>
           <a
             className={watcherClassNames}

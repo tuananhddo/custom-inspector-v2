@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import Modal from './Modal';
+import Modal from '../modals/Modal';
 import ModelAPI from '../../API/ModelAPI';
 import {Alert, Button} from 'reactstrap';
 import {getId} from '../../API/constants';
@@ -112,10 +112,10 @@ export default function VideoUploadModal (props) {
 
         <div className="new_asset_options">
 
-          <span>Load a new video from one of these sources:</span>
+          <span>Tải video từ một trong các cách sau:</span>
           <ul>
             <li>
-              <span>From URL (and press Enter):</span>{' '}
+              <span>Từ đường dẫn (URL) </span>{' '}
               <input
                 type="text"
                 className="imageUrl"
@@ -126,7 +126,7 @@ export default function VideoUploadModal (props) {
               />
             </li>
             <li>
-              <span>Tải lên </span>
+              <span>Tải lên từ máy tính</span>
 
               {/*<ul>*/}
               {/*  <input type="radio" id="local" name="server" value="local"/>*/}
@@ -142,17 +142,17 @@ export default function VideoUploadModal (props) {
               </ul>
             </li>
             <li>
-              <Button color="primary" size="lg" block onClick={confirmModel}>Xác nhận chọn Model</Button>
+              <Button color="primary" size="lg" block onClick={confirmModel}>Xác nhận thêm video</Button>
             </li>
           </ul>
         </div>
-        <div className="preview">
-          <img
-            width="155px"
-            height="155px"
-          />
-          <br/>
-        </div>
+        {/*<div className="preview">*/}
+        {/*  <img*/}
+        {/*    width="155px"*/}
+        {/*    height="155px"*/}
+        {/*  />*/}
+        {/*  <br/>*/}
+        {/*</div>*/}
       </div>
 
     </Modal>

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import Modal from './Modal';
+import Modal from '../modals/Modal';
 import ModelAPI from '../../API/ModelAPI';
 import {Alert, Button} from 'reactstrap';
 import {getId} from '../../API/constants';
@@ -105,7 +105,7 @@ export default function ModelModal (props) {
         element: 'a-entity', components: {
           id: getId('model-3d'),
           'gltf-model': `#${assetId}`,
-          sound: `src: #${audioId}`,
+          sound: `src: #${audioId};volume:100`,
           audiohandler: '',
           detailhandler:'',
           description: des
@@ -146,6 +146,8 @@ export default function ModelModal (props) {
             }
           });
 
+      }else {
+        setModelLink(cdnLink)
       }
       props.onClose();
       return;
@@ -164,7 +166,7 @@ export default function ModelModal (props) {
   return (
     <Modal
       id="modelModal"
-      title="Models"
+      title="Tải Mô hình 3D"
       isOpen={props.isOpen}
       onClose={props.onClose}
       closeOnClickOutside={false}
@@ -176,10 +178,10 @@ export default function ModelModal (props) {
 
         <div className="new_asset_options">
 
-          <span>Load a new model from one of these sources:</span>
+          <span>Tải mô hình từ một trong các cách sau::</span>
           <ul>
             <li>
-              <span>From URL (and press Enter):</span>{' '}
+              <span>Từ đường dẫn (URL) </span>{' '}
               <input
                 type="text"
                 className="imageUrl"
@@ -191,13 +193,15 @@ export default function ModelModal (props) {
               />
             </li>
             <li>
-              <span>Tải lên </span>
 
+              <span>Tải lên từ máy tính</span>
+              <br/>
               <ul>
+                <span>Nơi lưu trữ</span>
                 <input type="radio" id="local" name="server" value="local"/>
                 <label htmlFor="local">Máy chủ hiện tại </label>
                 <input type="radio" id="aws" name="server" value="aws" defaultChecked/>
-                <label htmlFor="aws">CDN Amazon (Nên dùng với file > 20mb)</label>
+                <label htmlFor="aws">CDN Amazon</label>
               </ul>
               {/*<ul>*/}
               {/*  <input type="radio" id="local" name="type" value="gltf" checked onClick={setModelType}/>*/}
@@ -225,15 +229,15 @@ export default function ModelModal (props) {
               </ul>
               <ul
                 // ref="registryGallery"
-                className="gallery">
+                className="gallery"
+              >
                 {/*{this.renderRegistryImages()}*/}
-                <label className="custom-file-label" htmlFor="customFile">Tải Model</label>
+                <label className="custom-file-label" htmlFor="customFile">Tải mô hình</label>
                 <input id="customFile" type="file" onChange={onFileChange} accept=".gltf,.glb"/>
-
               </ul>
             </li>
             <li>
-              <Button color="primary" size="lg" block onClick={confirmModel}>Xác nhận chọn Model</Button>
+              <Button color="primary" size="lg" block onClick={confirmModel}>Xác nhận thêm mô hình</Button>
 
             </li>
           </ul>

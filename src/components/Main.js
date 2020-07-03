@@ -11,10 +11,10 @@ import CameraToolbar from './viewport/CameraToolbar';
 import TransformToolbar from './viewport/TransformToolbar';
 import ViewportHUD from './viewport/ViewportHUD';
 import {injectCSS} from '../lib/utils';
-import ModelModal from './modals/ModelModal';
+import ModelModal from './customModal/ModelModal';
 import TransformToolbarVer2 from '../customComponents/TransformToolbarVer2';
-import UploadImageModal from './modals/UploadImageModal';
-import VideoUploadModal from './modals/VideoUploadModal';
+import UploadImageModal from './customModal/UploadImageModal';
+import VideoUploadModal from './customModal/VideoUploadModal';
 
 // Megahack to include font-awesome.
 injectCSS('https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css');
