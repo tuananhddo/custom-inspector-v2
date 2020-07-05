@@ -5,6 +5,8 @@ import {getId} from '../API&Constant/constants';
 
 var Events = require('../lib/Events.js');
 import {removeSelectedEntity} from '../lib/entity';
+import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
+// import Button from 'reactstrap/es/Button';
 
 const TransformButtons = [
   {name: 'Di chuyển', value: 'translate', icon: 'fa-arrows-alt'},
@@ -30,11 +32,11 @@ function createWall () {
   });
 }
 
-function createLight () {
+function createLight (lightType) {
   Events.emit('entitycreate', {
     element: 'a-entity', components: {
       id: getId('light'),
-      light: 'directional'
+      light: lightType
     }
   });
 }
@@ -92,7 +94,7 @@ function resetProfile () {
 
 const FunctionButtons = [
   {value: 'Thêm Mô hình', icon: 'fa-angle-double-up', onClick: openDialog},
-  {value: 'Thêm ánh sáng', icon: 'fa-lightbulb-o', onClick: createLight},
+  // {value: 'Thêm ánh sáng', icon: 'fa-lightbulb-o', onClick: createLight},
   {value: 'Thêm tường', icon: 'fa-map-o', onClick: createWall},
   {value: 'Thêm điểm dừng', icon: 'fa-bullseye', onClick: createCheckPoint},
   {value: 'Thêm cửa', icon: 'fa-columns', onClick: createDoor},
@@ -180,10 +182,30 @@ export default function TransformToolbarVer2 (props) {
 
   }
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const listDropdown = ['Ambient', 'Directional', 'Hemisphere', 'Point', 'Spot'].map((item, index) => {
+    return (
+      <DropdownItem key={index}
+                    onClick={() => {
+                      createLight(item)// console.log(item)
+                    }}>{item}</DropdownItem>);
+  });
+  const toggle = () => setDropdownOpen(prevState => !prevState);
   return (
     <div id="transformToolbar" className="toolbarButtons">
       {renderTransformButtons()}
       {renderFunctionButtons()}
+      {/*<Button onClick={()=>{setDropdownOpen(true)}}/>*/}
+      <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+        <DropdownToggle className={'fa fa-lightbulb-o'} title={'Thêm ánh sáng'} style={{display: 'inline-flex'}}>
+        </DropdownToggle>
+        <DropdownMenu>
+          <DropdownItem header>Loại ánh sáng</DropdownItem>
+          {listDropdown}
+        </DropdownMenu>
+      </Dropdown>
     </div>
   );
+
 }

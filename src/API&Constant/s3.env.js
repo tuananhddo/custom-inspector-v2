@@ -1,5 +1,5 @@
 export const author = {
-    accessKeyId: "AKIAYC6BLD5ZFHS66UUK",
-    secretAccessKey: "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",
+    accessKeyId: "AKIAYC6BLD5ZOV735PHT",
+    secretAccessKey: "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",
     region: "ap-southeast-1"
 }

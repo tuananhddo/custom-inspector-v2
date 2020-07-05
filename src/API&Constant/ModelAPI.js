@@ -1,5 +1,12 @@
 import getAxios from './axiosConfig';
-import {DEFAULT_AWS_URL, DEFAULT_ENTITY_URL, DEFAULT_MODEL_URL, DEFAULT_URL, profileId} from './constants';
+import {
+  DEFAULT_AWS_URL,
+  DEFAULT_ENTITY_URL,
+  DEFAULT_MODEL_URL,
+  DEFAULT_SYNC_URL,
+  DEFAULT_URL,
+  profileId
+} from './constants';
 
 export default {
 
@@ -56,12 +63,12 @@ export default {
     });
   },
   createEntity (definition) {
-    return getAxios().post(`${DEFAULT_URL}/profile/${profileId}/create`, definition);
+    return getAxios().post(`${DEFAULT_SYNC_URL}/${profileId}/create`, definition);
   },
   deleteEntity (id) {
-    return getAxios().post(`${DEFAULT_URL}/profile/${profileId}/delete/${id}`);
+    return getAxios().post(`${DEFAULT_SYNC_URL}/${profileId}/delete/${id}`);
   },
   reset () {
-    return getAxios().post(`${DEFAULT_URL}/profile/${profileId}/reset`);
+    return getAxios().post(`${DEFAULT_SYNC_URL}/${profileId}/reset`);
   }
 };

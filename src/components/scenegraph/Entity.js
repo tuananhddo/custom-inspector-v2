@@ -110,7 +110,7 @@ export default class Entity extends React.Component {
           {printEntity(entity, this.onDoubleClick)}
         </span>
         <span className="entityActions">
-          {cloneButton}
+          {/*{cloneButton}*/}
           {removeButton}
         </span>
       </div>

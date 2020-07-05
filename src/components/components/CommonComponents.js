@@ -56,7 +56,7 @@ export default class CommonComponents extends React.Component {
   renderCommonAttributes () {
     const entity = this.props.entity;
     const components = entity ? entity.components : {};
-    return ['position', 'rotation', 'scale', 'visible'].map(componentName => {
+    return ['visible'].map(componentName => {
       const schema = AFRAME.components[componentName].schema;
       var data = entity.object3D[componentName];
       if (componentName === 'rotation') {
@@ -117,6 +117,13 @@ export default class CommonComponents extends React.Component {
           className="button fa fa-clipboard"
           onClick={event => event.stopPropagation()}
         />
+        <a
+          href="#"
+          title="Copy entity HTML to clipboard"
+          data-action="copy-entity-to-clipboard"
+          className="button fa fa-clipboard"
+          onClick={event => event.stopPropagation()}
+        />
       </div>
     );
 
@@ -144,8 +151,8 @@ export default class CommonComponents extends React.Component {
             />
           </div>
           <div className="propertyRow">
-            <label className="text">class</label>
-            <span>{entity.getAttribute('class')}</span>
+            {/*<label className="text">class</label>*/}
+            {/*<span>{entity.getAttribute('class')}</span>*/}
           </div>
           {this.renderCommonAttributes()}
           {/*<Mixins entity={entity} />*/}
