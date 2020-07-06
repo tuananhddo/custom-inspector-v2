@@ -6,7 +6,6 @@ import {getId} from '../API&Constant/constants';
 var Events = require('../lib/Events.js');
 import {removeSelectedEntity} from '../lib/entity';
 import {Button, Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
-// import Button from 'reactstrap/es/Button';
 
 const TransformButtons = [
   {name: 'Di chuyển', value: 'translate', icon: 'fa-arrows-alt'},
@@ -36,7 +35,7 @@ function createLight (lightType) {
   Events.emit('entitycreate', {
     element: 'a-entity', components: {
       id: getId('light'),
-      light: lightType
+      light: `type: ${lightType}`
     }
   });
 }
@@ -188,7 +187,8 @@ export default function TransformToolbarVer2 (props) {
     return (
       <DropdownItem key={index}
                     onClick={() => {
-                      createLight(item)// console.log(item)
+                      createLight(item) ;
+                      console.log(item)
                     }}>{item}</DropdownItem>);
   });
   const toggle = () => setDropdownOpen(prevState => !prevState);

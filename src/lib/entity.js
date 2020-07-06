@@ -4,6 +4,7 @@ var Events = require('../lib/Events.js');
 
 import {equal} from '../lib/utils.js';
 import ModelAPI from '../API&Constant/ModelAPI';
+import {assetsType} from '../API&Constant/constants';
 
 /**
  * Update a component.
@@ -615,7 +616,8 @@ export function createEntity (definition, cb) {
     Events.emit('entitycreated', entity);
     cb(entity);
   });
-  if (definition.element == 'a-asset-item' || definition.element == 'img' || definition.element == 'audio' || definition.element == 'video') {
+  if (assetsType.includes(definition.element)) {
+    console.log('----ASSETS----')
     let mySceneAssets = document.querySelector('a-assets');
     mySceneAssets.appendChild(entity);
   } else {
