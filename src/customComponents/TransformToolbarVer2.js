@@ -42,11 +42,11 @@ function createLight (lightType) {
 
 function createCheckPoint () {
   Events.emit('entitycreate', {
-    element: 'a-entity', components: {
+    element: 'a-sphere', components: {
       id: getId('check-point'),
-      geometry: 'primitive: sphere',
-      scale: '6.536 3.5 0.14',
-      'cursor-listener': ''
+      scale: '1.0 1.0 0.14',
+      rotation: '90 0 0',
+      'checkpoint-listener': '',
     }
   });
 }

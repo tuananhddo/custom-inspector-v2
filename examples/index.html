@@ -3,48 +3,10 @@
 <head>
   <meta charset="utf-8">
   <title>Example Scene</title>
-  <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.min.js"></script>
+  <!--  <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.min.js"></script>-->
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+
   <script src="https://unpkg.com/aframe-environment-component@1.0.0/dist/aframe-environment-component.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
-  <script>
-    AFRAME.registerComponent('audiohandler', {
-      init: function () {
-        let playing = false;
-        let audio = document.querySelector('#audio');
-        this.el.addEventListener('click', () => {
-          this.el.components.sound.stopSound();
-          this.el.components.sound.playSound();
-          // if (!playing) {
-          //   audio.play();
-          // } else {
-          //   audio.pause();
-          //   audio.currentTime = 0;
-          // }
-          // playing = !playing;
-        });
-      }
-    });
-    AFRAME.registerComponent('cursor-listener', {
-      init: function () {
-        var lastIndex = -1;
-        var COLORS = ['red', 'green', 'blue'];
-        console.log(this);
-
-        this.el.addEventListener('mouseleave', function (evt) {
-          // lastIndex = (lastIndex + 1) % COLORS.length;
-          // this.setAttribute('material', 'color', COLORS[lastIndex]);
-          // console.log('I was clicked at: ', evt.detail.intersection.point);
-          // this.el.components.sound.stopSound();
-          this.components.sound.stopSound();
-          console.log('MOUSEENTER');
-          console.log();
-          console.log(evt);
-
-        });
-      }
-    });
-
-  </script>
 </head>
 <body>
 <a-scene debug="true">
@@ -54,10 +16,7 @@
     <a-mixin id="box" geometry="primitive: box; depth: 1; height: 1; width: 1"></a-mixin>
     <a-mixin id="yellow" material="color: #FFC65D"></a-mixin>
     <img id="crateImg" src="https://aframe.io/sample-assets/assets/images/wood/crate.gif" crossOrigin="true">
-    <audio id="river" src="https://3d-model-cdn.s3-ap-southeast-1.amazonaws.com/bensound-ukulele.mp3"
-           preload="auto"></audio>
-
-    <!--        <img id="floorImg" src="https://aframe.io/sample-assets/assets/images/terrain/grasslight-big.jpg" crossOrigin="true">-->
+            <img id="floorImg" src="https://aframe.io/sample-assets/assets/images/terrain/grasslight-big.jpg" crossOrigin="true">
   </a-assets>
   <a-image src="#crateImg"></a-image>
 
@@ -67,17 +26,12 @@
   <a-entity id="yellowSphere" geometry="primitive: sphere" material="color:#ff0; metalness:0.0; roughness:1.0"
             position="-2 2 -2"></a-entity>
   <!--      <a-box src="https://aframe.io/sample-assets/assets/images/bricks/brick_bump.jpg" position="-5 5 -2" width="1" color="#F16745"></a-box>-->
-  <a-box id="boxxxx"
-         color="blue"
-         sound="src: #river"
-         audiohandler>
-
-  </a-box>
 
   <!-- Models. -->
   <a-entity class="boxClass" geometry="primitive: box"
             sound=""
-            material="src: #crateImg" position="3 4 0"></a-entity>
+            material="src: #crateImg" position="3 4 0"
+            cursor-listener></a-entity>
 
   <!-- Floor. -->
   <a-entity id="floor" geometry="primitive: box; height: .2; depth: 24; width: 24"
@@ -88,19 +42,24 @@
   <a-entity id="pointLight" light="type: point; intensity: 0.25" position="0 3 3"></a-entity>
 
   <!-- Camera. -->
-  <a-entity id="cameraWrapper" position="0 1.6 8">
-    <a-entity id="camera" camera look-controls wasd-controls>
-      <!-- Cursor. -->
-      <a-entity id="cursor" position="0 0 -2"
-                geometry="primitive: ring; radiusOuter: 0.016; radiusInner: 0.01"
-                material="color: #ff9; shader: flat; transparent: true; opacity: 0.5"
-                scale="2 2 2" raycaster>
-      </a-entity>
+  <!--  <a-entity id="cameraWrapper" position="0 1.6 8">-->
+  <!--    <a-entity id="camera rig" camera look-controls wasd-controls>-->
+  <!--      &lt;!&ndash; Cursor. &ndash;&gt;-->
+  <!--      <a-entity id="cursor" position="0 0 -2"-->
+  <!--                geometry="primitive: ring; radiusOuter: 0.016; radiusInner: 0.01"-->
+  <!--                material="color: #ff9; shader: flat; transparent: true; opacity: 0.5"-->
+  <!--                scale="2 2 2" raycaster="objects: .interactObj" cursor="rayOrigin: mouse">-->
+  <!--      </a-entity>-->
+  <!--    </a-entity>-->
+  <!--  </a-entity>-->
+  <a-entity id='cameraWrapper' position="0 3.8 -10">
+    <a-entity id="rig" camera wasd-controls look-controls>
+      <a-entity id="mouseCursor" cursor="rayOrigin: mouse"></a-entity>
+      <!--      <a-cursor></a-cursor>-->
     </a-entity>
   </a-entity>
-
-  <!--      <a-entity id="leftHand" laser-controls="hand: left"></a-entity>-->
-  <!--      <a-entity id="rightHand" laser-controls="hand: right"></a-entity>-->
+  <a-entity id="leftHand" laser-controls="hand: left"></a-entity>
+  <a-entity id="rightHand" laser-controls="hand: right"></a-entity>
 </a-scene>
 
 <script src="../dist/aframe-inspector.js"></script>

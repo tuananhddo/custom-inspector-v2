@@ -107,7 +107,7 @@ export default function ModelModal (props) {
           'gltf-model': `#${assetId}`,
           sound: `src: #${audioId};volume:100`,
           audiohandler: '',
-          detailhandler:'',
+          detailhandler: '',
           description: des
         }
       });
@@ -122,7 +122,7 @@ export default function ModelModal (props) {
     setFile('');
     setAudioFile('');
     setAudioLink('');
-    setDes('')
+    setDes('');
   }, [modelLink]);
 
   function confirmModel () {
@@ -146,8 +146,8 @@ export default function ModelModal (props) {
             }
           });
 
-      }else {
-        setModelLink(cdnLink)
+      } else {
+        setModelLink(cdnLink);
       }
       props.onClose();
       return;
@@ -223,7 +223,7 @@ export default function ModelModal (props) {
               }
               <ul
                 className="gallery">
-                <label className="custom-file-label" htmlFor="customFile">Tải file âm thanh</label>
+                <label className="" htmlFor="customFile">Tải file âm thanh</label>
                 <input id="audioFile" type="file" onChange={onAudioFileChange} accept=".mp3,.wav"/>
 
               </ul>
@@ -232,7 +232,7 @@ export default function ModelModal (props) {
                 className="gallery"
               >
                 {/*{this.renderRegistryImages()}*/}
-                <label className="custom-file-label" htmlFor="customFile">Tải mô hình</label>
+                <label className="" htmlFor="customFile">Tải mô hình</label>
                 <input id="customFile" type="file" onChange={onFileChange} accept=".gltf,.glb"/>
               </ul>
             </li>
@@ -242,19 +242,7 @@ export default function ModelModal (props) {
             </li>
           </ul>
         </div>
-        <div className="preview">
-          {/*Name:{' '}*/}
-          {/*<input*/}
-          {/*  // ref="imageName"*/}
-          {/*  // className={*/}
-          {/*  //   this.state.preview.name.length > 0 && !validUrl ? 'error' : ''*/}
-          {/*  // }*/}
-          {/*  readOnly*/}
-          {/*  type="text"*/}
-          {/*  value={modelLink}*/}
-          {/*  // onChange={this.onNameChanged}*/}
-          {/*  // onKeyUp={this.onNameKeyUp}*/}
-          {/*/>*/}
+        <div className="preview" style={{width: '300px'}}>
           <textarea
             id="w3review"
             name="w3review"
@@ -262,36 +250,14 @@ export default function ModelModal (props) {
             rows="20"
             cols="50"
             value={des}
-            onChange={ (e)=>{
-              console.log(e.target.value)
-              setDes(e.target.value)
+            onChange={(e) => {
+              setDes(e.target.value);
             }}
             placeholder={'Mô tả vật thể'}
+            style={{'max-width': '276px'}}
           >
           </textarea>
-          {/*<img*/}
-          {/*  // ref="preview"*/}
-          {/*  width="155px"*/}
-          {/*  height="155px"*/}
-          {/*  // src={preview.src}*/}
-          {/*/>*/}
-          {/*{this.state.preview.loaded ? (*/}
-          {/*  <div className="detail">*/}
-          {/*      <span className="title" title={preview.filename}>*/}
-          {/*        {preview.filename}*/}
-          {/*      </span>*/}
-          {/*    <br/>*/}
-          {/*    <span>*/}
-          {/*        {preview.width} x {preview.height}*/}
-          {/*      </span>*/}
-          {/*  </div>*/}
-          {/*) : (*/}
-          {/*  <span/>*/}
-          {/*)}*/}
           <br/>
-          {/*<button disabled={!validAsset} onClick={this.addNewAsset}>*/}
-          {/*  LOAD THIS TEXTURE*/}
-          {/*</button>*/}
         </div>
       </div>
 

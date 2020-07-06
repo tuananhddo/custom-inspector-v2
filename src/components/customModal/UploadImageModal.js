@@ -49,15 +49,16 @@ export default function UploadImageModal (props) {
   function addCdnModelEntity (modelLink) {
     let assetId = getId('cdn');
     Events.emit('entitycreate', {
-      element: 'a-asset-item', components: {
+      element: 'img', components: {
         id: assetId,
-        src: modelLink
+        src: modelLink,
+        crossorigin:"anonymous"
       }
     });
     Events.emit('entitycreate', {
-      element: 'a-entity', components: {
+      element: 'a-image', components: {
         id: getId("cdn-img"),
-        'gltf-model': `#${assetId}`
+        src: `#${assetId}`
       }
     });
   }
@@ -98,7 +99,7 @@ export default function UploadImageModal (props) {
   return (
     <Modal
       id="uploadImageModal"
-      title="Models"
+      title="Hình ảnh"
       isOpen={props.isOpen}
       onClose={props.onClose}
       closeOnClickOutside={false}

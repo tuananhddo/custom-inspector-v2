@@ -17,12 +17,12 @@ export default class Modal extends React.Component {
     closeOnClickOutside: true
   };
 
-  constructor(props) {
+  constructor (props) {
     super(props);
-    this.state = { isOpen: this.props.isOpen };
+    this.state = {isOpen: this.props.isOpen};
   }
 
-  componentDidMount() {
+  componentDidMount () {
     document.addEventListener('keyup', this.handleGlobalKeydown);
     document.addEventListener('mousedown', this.handleGlobalMousedown);
   }
@@ -48,8 +48,9 @@ export default class Modal extends React.Component {
     if (target.tagName === 'INPUT' && target.type === 'file') {
       return false;
     }
-    if (target === this.refs.self || this.refs.self.contains(target))
+    if (target === this.refs.self || this.refs.self.contains(target)) {
       return false;
+    }
     return true;
   };
 
@@ -65,25 +66,25 @@ export default class Modal extends React.Component {
     }
   };
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     document.removeEventListener('keyup', this.handleGlobalKeydown);
     document.removeEventListener('mousedown', this.handleGlobalMousedown);
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps (newProps) {
     if (this.state.isOpen !== newProps.isOpen) {
-      this.setState({ isOpen: newProps.isOpen });
+      this.setState({isOpen: newProps.isOpen});
     }
   }
 
   close = () => {
-    this.setState({ isOpen: false });
+    this.setState({isOpen: false});
     if (this.props.onClose) {
       this.props.onClose();
     }
   };
 
-  render() {
+  render () {
     return (
       <div
         id={this.props.id}
@@ -91,10 +92,11 @@ export default class Modal extends React.Component {
       >
         <div className="modal-content" ref="self">
           <div className="modal-header">
+            <h3>{this.props.title}</h3>
+
             <span className="close" onClick={this.close}>
               ×
             </span>
-            <h3>{this.props.title}</h3>
           </div>
           <div className="modal-body">{this.props.children}</div>
         </div>

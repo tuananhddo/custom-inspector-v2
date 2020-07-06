@@ -167,6 +167,11 @@ Inspector.prototype = {
     if (entity === this.sceneEl) {
       return;
     }
+    // console.log('--------------')
+    // console.log(entity)
+    // console.log(entity.object3D)
+    // console.log('--------------')
+
     entity.object3D.traverse(node => {
       if (this.helpers[node.uuid]) {
         this.helpers[node.uuid].visible = true;

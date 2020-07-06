@@ -15,8 +15,8 @@ export const getId = (type) => {
   return type + '-' + Date.now();
 };
 const lastPath = window.location.pathname.lastIndexOf('/');
-// export const profileId = document.getElementById('profilePersonalId').value;
-export const profileId = 1
+export const profileId = document.getElementById('profilePersonalId').value;
+// export const profileId = 1
 const buildedAudioComponents = ['audiohandler', 'audio-stopper', 'volume', 'sound'];
 const buildedDescriptionComponents = ['detailhandler', 'description'];
 export const buildedComponents = [...buildedAudioComponents,

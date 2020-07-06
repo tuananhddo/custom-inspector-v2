@@ -24,10 +24,10 @@ export default class ComponentsContainer extends React.Component {
     const filtedComponents = definedComponents.filter((item) => {
       return buildedComponents.includes(item);
     });
-    console.log(definedComponents);
-    console.log(filtedComponents);
+    // console.log(definedComponents);
+    // console.log(filtedComponents);
 
-    const renderedComponents = filtedComponents.sort().map(function (key) {
+    const renderedComponents = definedComponents.sort().map(function (key) {
       return (
         <Component
           isCollapsed={definedComponents.length > 2}

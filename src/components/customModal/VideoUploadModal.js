@@ -137,7 +137,7 @@ export default function VideoUploadModal (props) {
 
               <ul
                 className="gallery">
-                <label className="custom-file-label" htmlFor="customVideoFile">Tải Video</label>
+                {/*<label className="custom-file-label" htmlFor="customVideoFile">Tải Video</label>*/}
                 <input id="customVideoFile" type="file" onChange={onFileChange} accept=".mp4"/>
               </ul>
             </li>

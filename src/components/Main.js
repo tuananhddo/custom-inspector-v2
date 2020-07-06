@@ -199,7 +199,7 @@ export default class Main extends React.Component {
 
     return (
       <div>
-        <a className="toggle-edit" onClick={this.toggleEdit}>
+        <a id='backToTheSceneButtonLink' className="toggle-edit" onClick={this.toggleEdit}>
           {toggleButtonText}
         </a>
 

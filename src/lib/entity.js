@@ -595,7 +595,7 @@ export function printEntity (entity, onDoubleClick) {
  * @return {Element} Entity created
  */
 export function createEntity (definition, cb) {
-  console.log(definition);
+  // console.log(definition);
   if (!definition.components.id) {
     Object.defineProperty(definition.components,
       'id', {value: definition.element + Date.now()});
