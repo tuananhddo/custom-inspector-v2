@@ -94,15 +94,13 @@ export default class Toolbar extends React.Component {
 
   render () {
     const watcherClassNames = classnames({
-      button: true,
-      fa: true,
-      'fa-save': true
+      button: true
     });
     const watcherTitle = 'Lưu chỉnh sửa';
 
     return (
       <div id="toolbar">
-        <div className="toolbarActions">
+        <div className="toolbarActions row">
           {/*<a*/}
           {/*  className="button fa fa-plus"*/}
           {/*  title="Add a new entity"*/}
@@ -114,17 +112,17 @@ export default class Toolbar extends React.Component {
           {/*  title={this.state.isPlaying ? 'Pause scene' : 'Resume scene'}*/}
           {/*  onClick={this.toggleScenePlaying}>*/}
           {/*</a>*/}
-          <a
-            className="gltfIcon"
-            title="Export to GLTF"
-            onClick={this.exportSceneToGLTF}>
-            <img src={'https://aframe.io/aframe-inspector/assets/gltf.svg'}/>
+          <a className={'ml-3 col-4'}
+             title="Export to GLTF"
+             onClick={this.exportSceneToGLTF}>
+            <img src={'https://aframe.io/aframe-inspector/assets/gltf.svg'} style={{height: '40px', width: '40px'}}/>
           </a>
-          <a
-            className={watcherClassNames}
-            title={watcherTitle}
-            onClick={this.writeChanges}
-          />
+          <a className={'col-4 mt-2'}
+             title={watcherTitle}
+             onClick={this.writeChanges}
+          >
+            <i className='fa fa-save' style={{fontSize: '25px'}}></i>
+          </a>
         </div>
       </div>
     );

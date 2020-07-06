@@ -281,7 +281,7 @@ export default class SceneGraph extends React.Component {
 
     return (
       <div id="scenegraph" className="scenegraph">
-        <div className="scenegraph-toolbar">
+        <div className="scenegraph-toolbar mt-3">
           <Toolbar />
           <div className="search">
             <input
