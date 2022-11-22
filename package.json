@@ -57,7 +57,7 @@
     "prop-types": "^15.6.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-file-reader-input": "^1.1.4",
+    "react-file-reader-input": "^2.0.0",
     "react-select": "^2.1.2",
     "react-test-renderer": "^15.3.2",
     "react-toastify": "^6.0.5",
